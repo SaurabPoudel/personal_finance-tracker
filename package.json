@@ -2,6 +2,11 @@
   "name": "personal-finance-app",
   "version": "0.1.0",
   "private": true,
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom",
+    "next": "$next"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

@@ -9,6 +9,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import Navbar from "@/components/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,14 +47,7 @@ export default function RootLayout({
             storageKey="app-theme"
           >
             <div className="flex min-h-screen flex-col">
-              <header className="p-4">
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-              </header>
+              <Navbar />
               <main className="flex-1">{children}</main>
             </div>
           </ThemeProvider>

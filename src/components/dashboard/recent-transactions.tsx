@@ -1,72 +1,65 @@
+"use client";
+import { useFinanceStore } from "@/store/finance-store";
+import { format } from "date-fns";
+
 export function RecentTransactions() {
-  const transactions = [
-    {
-      id: 1,
-      description: "Grocery Shopping",
-      amount: -120.5,
-      date: "2024-03-15",
-      category: "Food",
-    },
-    {
-      id: 2,
-      description: "Salary Deposit",
-      amount: 4395.0,
-      date: "2024-03-01",
-      category: "Income",
-    },
-    {
-      id: 3,
-      description: "Netflix Subscription",
-      amount: -15.99,
-      date: "2024-03-14",
-      category: "Entertainment",
-    },
-    {
-      id: 4,
-      description: "Electric Bill",
-      amount: -85.0,
-      date: "2024-03-10",
-      category: "Utilities",
-    },
-    {
-      id: 5,
-      description: "Restaurant",
-      amount: -45.8,
-      date: "2024-03-13",
-      category: "Food",
-    },
-  ];
+  const { transactions, categories } = useFinanceStore();
+
+  const recentTransactions = transactions
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 5);
+
+  if (transactions.length === 0) {
+    return (
+      <div className="text-center text-muted-foreground">
+        No transactions yet. Add your first transaction to get started!
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
-      {transactions.map((transaction) => (
-        <div
-          key={transaction.id}
-          className="flex items-center justify-between p-2 hover:bg-muted/50 rounded-lg"
-        >
-          <div className="space-y-1">
-            <p className="text-sm font-medium leading-none">
-              {transaction.description}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {transaction.category}
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <div
-              className={`text-sm font-medium ${
-                transaction.amount > 0 ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {transaction.amount > 0 ? "+" : ""}$
-              {Math.abs(transaction.amount).toFixed(2)}
+      {recentTransactions.map((transaction) => {
+        const category = categories.find(
+          (c) => c.id === transaction.categoryId
+        );
+        return (
+          <div
+            key={transaction.id}
+            className="flex items-center justify-between p-2 hover:bg-muted/50 rounded-lg"
+          >
+            <div className="space-y-1">
+              <p className="text-sm font-medium leading-none">
+                {transaction.description}
+              </p>
+              <div className="flex items-center gap-2">
+                <span
+                  className="h-2 w-2 rounded-full"
+                  style={{ backgroundColor: category?.color }}
+                />
+                <p className="text-sm text-muted-foreground">
+                  {category?.name}
+                </p>
+              </div>
             </div>
-            <div className="text-sm text-muted-foreground">
-              {new Date(transaction.date).toLocaleDateString()}
+            <div className="flex items-center gap-4">
+              <div
+                className={`text-sm font-medium ${
+                  transaction.type === "income"
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-red-600 dark:text-red-400"
+                }`}
+              >
+                {transaction.type === "income" ? "+" : "-"}$
+                {Math.abs(transaction.amount).toFixed(2)}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {format(new Date(transaction.date), "MMM dd")}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

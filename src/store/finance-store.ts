@@ -4,12 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import { Category, Transaction, Budget, FinanceStore } from "@/types/finance";
 
 interface FinanceState extends FinanceStore {
-  // Category actions
   addCategory: (category: Omit<Category, "id">) => void;
   updateCategory: (id: string, category: Partial<Category>) => void;
   deleteCategory: (id: string) => void;
 
-  // Transaction actions
   addTransaction: (
     transaction: Omit<Transaction, "id" | "createdAt" | "updatedAt">
   ) => void;
@@ -49,7 +47,6 @@ export const useFinanceStore = create<FinanceState>()(
       transactions: [],
       budgets: [],
 
-      // Category actions
       addCategory: (category) =>
         set((state) => ({
           categories: [...state.categories, { ...category, id: uuidv4() }],
@@ -67,7 +64,6 @@ export const useFinanceStore = create<FinanceState>()(
           categories: state.categories.filter((c) => c.id !== id),
         })),
 
-      // Transaction actions
       addTransaction: (transaction) =>
         set((state) => ({
           transactions: [
@@ -95,7 +91,6 @@ export const useFinanceStore = create<FinanceState>()(
           transactions: state.transactions.filter((t) => t.id !== id),
         })),
 
-      // Budget actions
       addBudget: (budget) =>
         set((state) => ({
           budgets: [...state.budgets, { ...budget, id: uuidv4() }],

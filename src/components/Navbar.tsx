@@ -37,7 +37,13 @@ export default function Navbar() {
                   >
                     Dashboard
                   </Link>
-                  {/* Add more navigation links as needed */}
+                  <Link
+                    href="/categories"
+                    className="block px-2 py-1 text-lg"
+                    onClick={() => setOpen(false)}
+                  >
+                    Categories
+                  </Link>
                 </nav>
               </SheetContent>
             </Sheet>

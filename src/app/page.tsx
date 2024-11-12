@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, SignUp } from "@clerk/nextjs";
 import {
   ArrowRight,
   BarChart2,
@@ -24,11 +24,11 @@ export default function Home() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <SignedOut>
-            <Link href="/sign-in">
+            <SignInButton mode="modal">
               <Button size="lg" className="gap-2">
-                Get Started <ArrowRight className="h-4 w-4" />
+                Get Started
               </Button>
-            </Link>
+            </SignInButton>
           </SignedOut>
           <SignedIn>
             <Link href="/dashboard">
